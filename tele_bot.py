@@ -2,6 +2,7 @@
 import telebot
 from telebot import types
 
+
 # создаем объект нашего бота (мозг бота)
 bot = telebot.TeleBot("6563447788:AAGmDrIjgU0jzeiFpgS_QLko57vjTlAN6jY")
 
