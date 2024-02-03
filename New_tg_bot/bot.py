@@ -7,6 +7,12 @@ from telebot import types
 # это Frist Bot token
 bot = telebot.TeleBot("6563447788:AAGmDrIjgU0jzeiFpgS_QLko57vjTlAN6jY")
 # Обработка команды/start
+database.add_product('Чизбургер0', 20000.0, 0, 'Кайф бургер0',
+                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOK-9ooVek1Gng3S8I42VyWwGWwE3yAe6hToSbux8d6g&s')
+print(database.get_all_product())
+print(database.get_pr_id_name())
+print(database.get_exact_product(3))
+print(database.delete_products())
 @bot.message_handler(commands=['start'])
 def start(message):
     # сохраняем id пользователя
@@ -15,7 +21,7 @@ def start(message):
     checker = database.check_user(user_id)
     # если пользователь есть в bd открывает ему меню
     if checker == True:
-        bot.send_message(user_id, 'Главное меню')
+        bot.send_message(user_id, 'Главное меню', reply_markup=buttons.main_menu())
     # если пользователя нет в бд, начинаем регистрацию
     elif checker == False:
         # отправляем ответ на команду старт
