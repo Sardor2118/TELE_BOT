@@ -51,3 +51,4 @@ def send_photo(message):
 
 # запускаем бесконечный цикл    работы бота
 bot.infinity_polling()
+
