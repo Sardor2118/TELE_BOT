@@ -48,3 +48,4 @@ def get_number(message, name):
 
 # чтобы бот работал без остановки добавляем это
 bot.infinity_polling()
+
