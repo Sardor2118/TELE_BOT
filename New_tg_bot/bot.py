@@ -7,7 +7,7 @@ from telebot import types
 # это Frist Bot token
 bot = telebot.TeleBot("6563447788:AAGmDrIjgU0jzeiFpgS_QLko57vjTlAN6jY")
 # Обработка команды/start
-database.add_product('Чизбургер0', 20000.0, 0, 'Кайф бургер0',
+database.add_product('Чизбургер0', 20000.0, 10, 'Кайф бургер0',
                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOK-9ooVek1Gng3S8I42VyWwGWwE3yAe6hToSbux8d6g&s')
 print(database.get_all_product())
 print(database.get_pr_id_name())
@@ -51,6 +51,33 @@ def get_number(message, name):
         bot.register_next_step_handler(message, get_number, name)
 # bot.register_next_step_handler(message, следующая функция, аргументы)
     print(message.contact)
+
+@bot.callback_query_handler(lambda call: call.data in ["products", "cart", "feedback"])
+def for_calls(call):
+    user_id = call.message.chat.id
+    if call.data == "products":
+        actual_product = database.get_pr_id_name()
+        bot.send_message(user_id, "Доступные бургеры", reply_markup=buttons.products_menu(actual_product))
+    elif call.data == "cart":
+        pass
+    elif call.data == "feedback":
+        bot.send_message(user_id, "Напишите ваш отзыв")
+        bot.register_next_step_handler(call.message, feedback_fc)
+
+def feedback_fc(message):
+    user_id = message.from_user.id
+    bot.send_message(-1001804805193, f"{message.text}\n"
+                                     f"Юзер пользователя: {user_id}")
+@bot.callback_query_handler(lambda call: int(call.data) in database.get_all_id())
+def calls_for_products(call):
+    user_id = call.message.chat.id
+    product = database.get_exact_product(1)
+    users[user_id] = {"pr_id": call.data, "pr_count": 1}
+
+    bot.send_photo(user_id, photo=product[3], caption=f"{product[0]}\n"
+                          f"Цена:{product[1]}\n"
+                          f"Описание: {product[2]}\n"
+                          f"Выберите количество:", reply_markup=buttons.exact_product())
 
 # чтобы бот работал без остановки добавляем это
 bot.infinity_polling()
