@@ -7,6 +7,8 @@ from telebot import types
 # это Frist Bot token
 bot = telebot.TeleBot("6563447788:AAGmDrIjgU0jzeiFpgS_QLko57vjTlAN6jY")
 # Обработка команды/start
+
+users = {}
 database.add_product('Чизбургер0', 20000.0, 10, 'Кайф бургер0',
                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOK-9ooVek1Gng3S8I42VyWwGWwE3yAe6hToSbux8d6g&s')
 print(database.get_all_product())
